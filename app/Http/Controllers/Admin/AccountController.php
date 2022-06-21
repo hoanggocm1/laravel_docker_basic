@@ -29,6 +29,11 @@ class AccountController extends Controller
     public function store(Request $request)
     {
         try {
+
+            if (($request->input('account_birth') > Carbon::now('Asia/Ho_Chi_Minh'))) {
+                session()->flash('error', 'Thêm thất bại. Vui lòng kiểm tra lại ngày sinh!');
+                return redirect()->back();
+            }
             Account::create([
                 'account_name' => (string) $request->input('account_name'),
                 'account_address' => (int) $request->input('account_address'),
